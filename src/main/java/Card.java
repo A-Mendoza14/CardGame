@@ -9,7 +9,34 @@ public class Card {
         this.value = value;
     }
 
-    public void setSuit(String suit){
-        this.suit = suit
+    // Getter Methods
+    public String getSuit() {
+        return suit;
+    }
+
+    public String getRank() {
+        return rank;
+    }
+
+    public int getValue() {
+        return value;
+    }
+
+    //Setter Methods
+    public void setSuit(String suit) {
+        this.suit = suit;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
+    }
+
+    public void setRank(String rank) {
+        this.rank = rank;
+    }
+
+    @Override
+    public String toString() {
+        return rank + " of " + suit;
     }
 }
