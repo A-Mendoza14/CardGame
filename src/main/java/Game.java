@@ -16,6 +16,10 @@ public class Game {
 
         p.addCard(card2);
 
+        Card card3 = new Card("Clubs","8", 2);
+
+        p.addCard(card3);
+
         System.out.println(p);
     }
 }
