@@ -7,9 +7,9 @@ public class Game {
 
 
     public Game(){
-        deck = makeDeck();
-        for (int i = 0; i < deck.getCardsLeft(); i++){
-            System.out.println(deck.deal());
+        Deck copy = makeDeck();
+        while (copy.getCardsLeft() > 0){
+            System.out.println(copy.deal());
         }
     }
 
@@ -32,7 +32,7 @@ public class Game {
     public Deck makeDeck(){
         String[] ranks = {"Ace", "King", "Queen", "Jack", "10", "9", "8", "7", "6", "5", "4", "3", "2"};
         String[] suits = {"Clubs", "Diamonds", "Hearts", "Spades"};
-        int[] values = {1, 10, 10, 10, 10, 9, 50, 7, 6, 5, 4, 3, 2, 1};
+        int[] values = {1, 10, 10, 10, 10, 9, 50, 7, 6, 5, 4, 3, 2};
 
         return new Deck(ranks, suits, values);
     }

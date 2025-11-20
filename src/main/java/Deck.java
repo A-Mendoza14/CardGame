@@ -7,8 +7,8 @@ public class Deck {
     public Deck(String[] ranks, String[] suits, int[] values){
         cards = new ArrayList<Card>();
         for(int i = 0; i < ranks.length; i++){
-            for (int j = 0; j < suits.length; i++) {
-                Card c = new Card(ranks[i], suits[i], values[i]);
+            for (int j = 0; j < suits.length; j++) {
+                Card c = new Card(ranks[j], suits[j], values[j]);
                 cards.add(c);
             }
         }
@@ -35,8 +35,8 @@ public class Deck {
 
     public void shuffle() {
         cardsLeft = cards.size();
-        for (int i = cardsLeft; i >= 0; i++) {
-            int r = (int) (Math.random() * i + 1);
+        for (int i = cardsLeft - 1; i > 0; i--) {
+            int r = (int) (Math.random() * (i + 1));
             Card temp = cards.get(i);
             cards.set(i, cards.get(r));
             cards.set(r, temp);
