@@ -37,6 +37,10 @@ public class Player {
         this.hand.add(c);
     }
 
+    public void placeCard(Card c ){
+        hand.remove(c);
+    }
+
     @Override
     public String toString() {
         return this.name + " has " + this.points + " points" + "\n" + this.name + "'s cards: " + this.hand;
