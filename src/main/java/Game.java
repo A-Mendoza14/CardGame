@@ -37,23 +37,40 @@ public class Game {
                 p.addCard(deck.deal());
             }
         }
+//
+//        System.out.println("Player 1: Pick a card");
+//        System.out.println(player1.getHand());
+//
+//        int pick = scanner.nextInt() - 1;
+//        System.out.println(player1.getHand().get(pick));
+//        player1.placeCard(player1.getHand().get(pick));
+//        System.out.println(player1.getHand());
 
-        System.out.println("Player 1: Pick a card");
-        System.out.println(player1.getHand());
+        Card prevCard = null;
+        while (player1.getHand().size() > 0 || player2.getHand().size() > 0){
+            int pick = -1;
+            for (int i = 0; i < 2; i++) {
+                // Player places card
+                System.out.println("Player " + (i + 1) + ": Pick a card");
+                System.out.println(players.get(i).getHand());
+                if (pick != -1){
+                    prevCard = players.get(i).getHand().get(pick);
+                }
+                pick = scanner.nextInt() - 1;
 
-        int pick = scanner.nextInt() - 1;
-        System.out.println(player1.getHand().get(pick));
-        player1.placeCard(player1.getHand().get(pick));
-        System.out.println(player1.getHand());
-
-        while (player1.getHand().size() != 0 && player2.getHand().size() != 0){
-
-            // Player places card
-            System.out.println();
-            // Check if card matches the previous
-            // Check for empty hand
-            // Player wins
-            // If it doesn't, player has to draw
+                // Check if card matches the previous
+                if (!players.get(i).getHand().get(pick).sameCard(prevCard)){
+                    System.out.println(players.get(i).getHand().get(pick));
+                    players.get(i).placeCard(players.get(i).getHand().get(pick));
+                    System.out.println();
+                }
+                else {
+                    System.out.println("Card does not match, you must draw!");
+                }
+                // Check for empty hand
+                // Player wins
+                // If it doesn't, player has to draw
+            }
 
         }
 

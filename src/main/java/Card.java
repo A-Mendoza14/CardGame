@@ -35,14 +35,14 @@ public class Card {
         this.rank = rank;
     }
 
-    public boolean sameCard(Card c, Card c2){
-        if(c.getSuit().equals(c2.getSuit()) && c.getRank().equals(c2.getRank()))
+    public boolean sameCard(Card c){
+        if(this.getSuit().equals(c.getSuit()) && this.getRank().equals(c.getRank()))
             return true;
         return false;
     }
 
     @Override
     public String toString() {
-        return rank + " of " + suit;
+        return suit + " of " + rank;
     }
 }
