@@ -3,7 +3,7 @@ public class Card {
     private String rank;
     private int value;
 
-    public Card(String suit, String rank, int value){
+    public Card(String rank, String suit, int value){
         this.suit = suit;
         this.rank = rank;
         this.value = value;
@@ -43,6 +43,6 @@ public class Card {
 
     @Override
     public String toString() {
-        return suit + " of " + rank;
+        return rank + " of " + suit;
     }
 }
