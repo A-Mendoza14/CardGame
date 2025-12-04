@@ -18,17 +18,42 @@ public class Game {
 
     public void printInstructions(){
         System.out.println("""
-                Hello and Welcome to Crazy 8s!\s
-                 You must match the suit or rank of the previous card played. \
-                If you don't have a card that works, you must draw, and your turn gets skipped.\s
-                 You can place down an 8 \
-                at any time. Placing down an 8 also lets you pick the next suit. Good Luck!""");
+                Hello and Welcome to Crazy 8s!\n
+                You must match the suit or rank of the previous card played. \n
+                If you don't have a card that works, you must draw, and your turn gets skipped.\n
+                You can place down an 8 \n
+                at any time. Placing down an 8 also lets you pick the next suit. \n
+                When typing your suit, please  make \n
+                sure to spell suits correctly. \n
+                To place a card, type 1 to place the first, 2 to place the second, \n
+                and so on. Good Luck!""");
+    }
+    // Check if the card can be played
+    public boolean canPlay(Card chosen, Card prev){
+    return  chosen.getRank().equals(prev.getRank())
+            || chosen.getSuit().equals(prev.getSuit()) || chosen.getRank().equals("8");
     }
 
-    public void playGame(){
-        printInstructions();
+    //Deal hands to each player
+    public void dealStartingHands(){
+        for (Player p : players){
+            for (int i = 0; i < 7; i++){
+                p.addCard(deck.deal());
+            }
+        }
+    }
 
-        Scanner scanner = new Scanner(System.in);
+    // Draw a valid starting card, that is not an 8
+    public Card drawStartingCard(){
+        Card c = deck.deal();
+        // Prevent 8 from being starting card
+        while (c.getRank().equals("8")){
+            c = deck.deal();
+        }
+        return c;
+    }
+
+    public void setUpPlayers(Scanner scanner){
         System.out.println("Player 1 name: ");
         String name = scanner.nextLine();
         Player player1 = new Player(name);
@@ -38,53 +63,64 @@ public class Game {
         name = scanner.nextLine();
         Player player2 = new Player(name);
         players.add(player2);
+    }
 
-        for (Player p : players){
-            for (int i = 0; i < 7; i++){
-                p.addCard(deck.deal());
-            }
-        }
+    public void playGame(){
+        printInstructions();
 
-        Card prevCard = null;
+        Scanner scanner = new Scanner(System.in);
+
+        setUpPlayers(scanner);
+
+        dealStartingHands();
+
+        Card prevCard = drawStartingCard();
+
+        System.out.println("Starting Card: " + prevCard);
         Card chosen = null;
-        while (!player1.getHand().isEmpty() && !player2.getHand().isEmpty()){
+
+        while (true){
             int pick;
-            for (int i = 0; i < 2; i++) {
+            // Turn for each player
+            for (Player p : players) {
                 // Player places card
-                System.out.println(players.get(i).getName() + ": Pick a card");
-                System.out.println(players.get(i).getHand());
+                System.out.println(p.getName() + ": Pick a card");
+                System.out.println(p.getHand());
 
                 pick = scanner.nextInt() - 1;
                 scanner.nextLine();
 
-                while (pick < 0 || pick >= players.get(i).getHand().size()){
+                // Make sure the player picks a valid card number
+                while (pick < 0 || pick >= p.getHand().size()){
                     System.out.println("Invalid pick. Try again.");
                     pick = scanner.nextInt() - 1;
                     scanner.nextLine();
                 }
-                chosen = players.get(i).getHand().get(pick);
+                chosen = p.getHand().get(pick);
 
                 // Check if card matches the previous
-                if (prevCard == null || chosen.getRank().equals(prevCard.getRank())
-                        || chosen.getSuit().equals(prevCard.getSuit()) || chosen.getRank().equals("8")){
-                    System.out.println(players.get(i).getName() + " placed a " + chosen);
+                if (canPlay(chosen, prevCard)){
+                    System.out.println(p.getName() + " placed a " + chosen);
                     prevCard = chosen;
-                    players.get(i).placeCard(chosen);
+                    p.placeCard(chosen);
+                    // Let player pick a new suit when 8 is placed down
                     if (prevCard.getRank().equals("8")){
-                        System.out.println(players.get(i).getName() + " pick a new suit!");
+                        System.out.println(p.getName() + " pick a new suit!");
                         String newSuit = scanner.nextLine();
+
                         prevCard.setSuit(newSuit);
                     }
                     System.out.println();
                 }
+                // Player draws if card does not work
                 else {
                     System.out.println("Card does not match, you must draw! \n");
-                    players.get(i).addCard(deck.deal());
+                    p.addCard(deck.deal());
 
                 }
                 // Check for empty hand
-                if (players.get(i).getHand().isEmpty()){
-                    System.out.println(players.get(i).getName() + " wins!");
+                if (p.getHand().isEmpty()){
+                    System.out.println(p.getName() + " wins!");
                     return;
                 }
             }

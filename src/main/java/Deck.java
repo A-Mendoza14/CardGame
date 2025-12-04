@@ -4,6 +4,7 @@ public class Deck {
     private ArrayList<Card> cards;
     private int cardsLeft;
 
+    // Create Deck for game
     public Deck(String[] ranks, String[] suits, int[] values){
         cards = new ArrayList<Card>();
         for(int i = 0; i < ranks.length; i++){
@@ -26,11 +27,17 @@ public class Deck {
     }
 
     public Card deal() {
+        // Rebuild the deck once there is no more cards to give out
         if (cardsLeft == 0) {
-            return null;
+            rebuildDeck();
         }
         cardsLeft--;
         return cards.get(cardsLeft);
+    }
+
+    public void rebuildDeck(){
+        cardsLeft = cards.size();
+        shuffle();
     }
 
     public void shuffle() {
