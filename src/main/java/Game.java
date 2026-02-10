@@ -10,10 +10,26 @@ public class Game {
     int[] values = {1, 10, 10, 10, 10, 9, 50, 7, 6, 5, 4, 3, 2};
     private Deck deck;
 
+    // States for the game
+    private int state;
+    public static final int STATE_INSTR = 0;
+    public static final int STATE_PLAYER1 = 1;
+    public static final int STATE_PLAYER2 = 2;
+    public static final int STATE_END = 3;
+
+    private GameView window;
+
 
     public Game(){
         deck = new Deck(ranks, suits, values);
         players = new ArrayList<>();
+
+        this.window = new GameView(this);
+        state = STATE_INSTR;
+    }
+
+    public int getState() {
+        return state;
     }
 
     public void printInstructions(){
@@ -83,6 +99,17 @@ public class Game {
             int pick;
             // Turn for each player
             for (Player p : players) {
+                // Switch state depending on player
+                if (players.indexOf(p) == 0) {
+                    state = STATE_PLAYER1;
+                    // Repaint for states
+                    window.repaint();
+                } else {
+                    state = STATE_PLAYER2;
+                    // Repaint for states
+                    window.repaint();
+                }
+
                 // Player places card
                 System.out.println(p.getName() + ": Pick a card");
                 System.out.println(p.getHand());
@@ -121,6 +148,9 @@ public class Game {
                 // Check for empty hand
                 if (p.getHand().isEmpty()){
                     System.out.println(p.getName() + " wins!");
+                    state = STATE_END;
+                    // Repaint for states
+                    window.repaint();
                     return;
                 }
             }
