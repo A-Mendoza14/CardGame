@@ -32,17 +32,16 @@ public class Game {
         return state;
     }
 
-    public void printInstructions(){
-        System.out.println("""
-                Hello and Welcome to Crazy 8s!\n
-                You must match the suit or rank of the previous card played. \n
-                If you don't have a card that works, you must draw, and your turn gets skipped.\n
-                You can place down an 8 \n
-                at any time. Placing down an 8 also lets you pick the next suit. \n
-                When typing your suit, please  make \n
-                sure to spell suits correctly. \n
-                To place a card, type 1 to place the first, 2 to place the second, \n
-                and so on. Good Luck!""");
+    public String printInstructions(){
+        return  "Hello and Welcome to Crazy 8s!\n " +
+                "You must match the suit or rank of the previous card played. \n " +
+                "If you don't have a card that works, you must draw, and your turn gets skipped.\n " +
+                "You can place down an 8 \n " +
+                "at any time. Placing down an 8 also lets you pick the next suit. \n " +
+                "When typing your suit, please  make \n " +
+                "sure to spell suits correctly. \n " +
+                "To place a card, type 1 to place the first, 2 to place the second, \n " +
+                "and so on. Good Luck!";
     }
     // Check if the card can be played
     public boolean canPlay(Card chosen, Card prev){
@@ -82,7 +81,8 @@ public class Game {
     }
 
     public void playGame(){
-        printInstructions();
+        System.out.println(printInstructions());
+        window.repaint();
 
         Scanner scanner = new Scanner(System.in);
 
