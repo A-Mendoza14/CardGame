@@ -1,12 +1,19 @@
+import javax.swing.*;
+import java.awt.*;
+
 public class Card {
     private String suit;
     private String rank;
     private int value;
+    private int imageIndex;
+    private Image cardImage;
 
-    public Card(String rank, String suit, int value){
+    public Card(String rank, String suit, int value, int imageIndex){
         this.suit = suit;
         this.rank = rank;
         this.value = value;
+        this.imageIndex = imageIndex;
+        this.cardImage = new ImageIcon("src/main/resources/Cards/" + imageIndex + ".png").getImage();
     }
 
     // Getter Methods
@@ -20,6 +27,10 @@ public class Card {
 
     public int getValue() {
         return value;
+    }
+
+    public int getImageIndex(){
+        return imageIndex;
     }
 
     //Setter Methods
@@ -39,6 +50,10 @@ public class Card {
         if(this.getSuit().equals(c.getSuit()) && this.getRank().equals(c.getRank()))
             return true;
         return false;
+    }
+
+    public void draw(Graphics g, int x, int y, GameView window){
+        g.drawImage(cardImage, x, y, 80, 120, window);
     }
 
     @Override

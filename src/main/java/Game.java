@@ -1,14 +1,16 @@
 import java.sql.SQLOutput;
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.awt.*;
 
 public class Game {
     private ArrayList<Player> players;
 
-    String[] ranks = {"Ace", "King", "Queen", "Jack", "10", "9", "8", "7", "6", "5", "4", "3", "2"};
-    String[] suits = {"Clubs", "Diamonds", "Hearts", "Spades"};
+    String[] ranks = {"Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King"};
+    String[] suits = {"Spades", "Hearts", "Diamonds", "Clubs"};
     int[] values = {1, 10, 10, 10, 10, 9, 50, 7, 6, 5, 4, 3, 2};
     private Deck deck;
+    private Card prevCard;
 
     // States for the game
     private int state;
@@ -26,6 +28,10 @@ public class Game {
 
         this.window = new GameView(this);
         state = STATE_INSTR;
+    }
+
+    public ArrayList<Player> getPlayers(){
+        return players;
     }
 
     public int getState() {
@@ -90,7 +96,7 @@ public class Game {
 
         dealStartingHands();
 
-        Card prevCard = drawStartingCard();
+        prevCard = drawStartingCard();
 
         System.out.println("Starting Card: " + prevCard);
         Card chosen = null;

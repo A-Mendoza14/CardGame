@@ -7,10 +7,13 @@ public class Deck {
     // Create Deck for game
     public Deck(String[] ranks, String[] suits, int[] values){
         cards = new ArrayList<Card>();
+
+        int imageCounter = 0;
         for(int i = 0; i < ranks.length; i++){
             for (int j = 0; j < suits.length; j++) {
-                Card c = new Card(ranks[i], suits[j], values[i]);
+                Card c = new Card(ranks[i], suits[j], values[i], imageCounter);
                 cards.add(c);
+                imageCounter++;
             }
         }
         cardsLeft = cards.size();
