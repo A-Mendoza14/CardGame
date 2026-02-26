@@ -1,6 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 
 public class GameView extends JFrame{
     public static int WINDOW_WIDTH = 800;
@@ -17,10 +16,7 @@ public class GameView extends JFrame{
         this.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         this.setVisible(true);
         cardImages = new Image[53];
-        for (int i = 0; i < 52; i++){
-            cardImages[i] = new ImageIcon("Cards/" + i + ".png").getImage();
-        }
-         cardImages[52] = new ImageIcon("src/main/resources/Cards/back.png").getImage();
+        cardImages[52] = new ImageIcon("src/main/resources/Cards/back.png").getImage();
     }
 
     public void paintInstructions(Graphics g){
@@ -28,30 +24,34 @@ public class GameView extends JFrame{
         g.fillRect(0,0, WINDOW_WIDTH, WINDOW_HEIGHT);
         g.setColor(Color.black);
 
-        // Calculate line height
-        FontMetrics fm = g.getFontMetrics();
-        int lineHeight = fm.getHeight();
-
         // Split string into lines
         String instr = backend.printInstructions();
-        int y = 100;
+        int y = 115;
         g.setFont(new Font("Serif", Font.BOLD, 20));
         for (String line : instr.split("\n")){
             g.drawString(line, 100, y);
-            y += lineHeight + 5;
+            y += 25;
         }
     }
 
-    public void paintPlayer1(Graphics g){
+    public void paintBackground(Graphics g){
         // Set background for game
         Color darkGreen = new Color(0, 100, 0);
         g.setColor(darkGreen);
         g.fillRect(0,0,WINDOW_WIDTH, WINDOW_HEIGHT);
 
 
+        // Draw card placed and draw pile
         g.setColor(Color.white);
         g.drawString("Card Placed", 425, 125);
+        Card prevCard = backend.getPrevCard();
+        prevCard.draw(g, 425, 150, this);
         g.drawString("Draw Pile", 275, 125);
+        g.drawImage(cardImages[52], 265, 150, 80, 120, this);
+    }
+
+    public void paintPlayer1(Graphics g){
+        paintBackground(g);
 
         // Draw player hand
         int x = 150;
@@ -62,10 +62,43 @@ public class GameView extends JFrame{
             c.draw(g, x, y, this);
             x += 20;
         }
+
+        // Draw player name
+        g.setColor(Color.white);
+        g.drawString(p.getName() + " turn", 100, 100);
     }
 
-    public void paintCard(Graphics g){
+    public void paintPlayer2(Graphics g){
+        paintBackground(g);
 
+        // Draw player hand
+        int x = 150;
+        int y = 300;
+
+        Player p = backend.getPlayers().get(1);
+        for (Card c : p.getHand()){
+            c.draw(g, x, y, this);
+            x += 20;
+        }
+
+        // Draw player name
+        g.setColor(Color.white);
+        g.drawString(p.getName() + " turn", 100, 100);
+    }
+
+    public void paintGameOver(Graphics g){
+        // Draw Background
+        g.setColor(Color.green);
+        g.fillRect(0,0,WINDOW_WIDTH, WINDOW_HEIGHT);
+        // Get winner and print name out
+        Font winner = new Font("SansSerif", Font.BOLD, 50);
+        g.setFont(winner);
+        g.setColor(Color.black);
+        g.drawString(backend.getWinner().getName() + " is the winner!", 225, 250);
+    }
+
+    public void paintNewSuit(Graphics g){
+        g.drawString("New suit is: " + backend.getPrevCard().getSuit(), 300, 100);
     }
 
     public void paint(Graphics g){
@@ -75,12 +108,13 @@ public class GameView extends JFrame{
         } else if (backend.getState() == Game.STATE_PLAYER1){
             paintPlayer1(g);
         } else if (backend.getState() == Game.STATE_PLAYER2){
-            g.setColor(Color.blue);
-            g.fillRect(0,0, WINDOW_WIDTH, WINDOW_HEIGHT);
+            paintPlayer2(g);
         } else{
-            g.setColor(Color.yellow);
-            g.fillRect(0,0, WINDOW_WIDTH, WINDOW_HEIGHT);
+            paintGameOver(g);
         }
 
+        if (backend.getNewSuitChosen()){
+            g.drawString("New Suit: " + backend.getPrevCard().getSuit(), 325, 100);
+        }
     }
 }

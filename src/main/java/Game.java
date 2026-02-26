@@ -1,7 +1,7 @@
-import java.sql.SQLOutput;
+// Card Game by Alexis Mendoza
+
 import java.util.Scanner;
 import java.util.ArrayList;
-import java.awt.*;
 
 public class Game {
     private ArrayList<Player> players;
@@ -11,6 +11,8 @@ public class Game {
     int[] values = {1, 10, 10, 10, 10, 9, 50, 7, 6, 5, 4, 3, 2};
     private Deck deck;
     private Card prevCard;
+    private Player winner;
+    private boolean newSuitChosen;
 
     // States for the game
     private int state;
@@ -36,6 +38,18 @@ public class Game {
 
     public int getState() {
         return state;
+    }
+
+    public Card getPrevCard(){
+        return prevCard;
+    }
+
+    public Player getWinner(){
+        return winner;
+    }
+
+    public boolean getNewSuitChosen(){
+        return newSuitChosen;
     }
 
     public String printInstructions(){
@@ -123,6 +137,14 @@ public class Game {
                 pick = scanner.nextInt() - 1;
                 scanner.nextLine();
 
+                // Method to skip to the end
+                if (pick == 99){
+                    winner = p;
+                    state = STATE_END;
+                    window.repaint();
+                    return;
+                }
+
                 // Make sure the player picks a valid card number
                 while (pick < 0 || pick >= p.getHand().size()){
                     System.out.println("Invalid pick. Try again.");
@@ -142,6 +164,8 @@ public class Game {
                         String newSuit = scanner.nextLine();
 
                         prevCard.setSuit(newSuit);
+                        newSuitChosen = true;
+                        window.repaint();
                     }
                     System.out.println();
                 }
@@ -154,6 +178,7 @@ public class Game {
                 // Check for empty hand
                 if (p.getHand().isEmpty()){
                     System.out.println(p.getName() + " wins!");
+                    winner = p;
                     state = STATE_END;
                     // Repaint for states
                     window.repaint();
