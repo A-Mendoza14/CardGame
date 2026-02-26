@@ -119,6 +119,7 @@ public class Game {
             int pick;
             // Turn for each player
             for (Player p : players) {
+                newSuitChosen = false;
                 // Switch state depending on player
                 if (players.indexOf(p) == 0) {
                     state = STATE_PLAYER1;

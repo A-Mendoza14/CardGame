@@ -97,10 +97,6 @@ public class GameView extends JFrame{
         g.drawString(backend.getWinner().getName() + " is the winner!", 225, 250);
     }
 
-    public void paintNewSuit(Graphics g){
-        g.drawString("New suit is: " + backend.getPrevCard().getSuit(), 300, 100);
-    }
-
     public void paint(Graphics g){
         // Paint States
         if (backend.getState() == Game.STATE_INSTR){
