@@ -23,6 +23,8 @@ public class Game {
 
     private GameView window;
 
+    private int turnCounter;
+
 
     public Game(){
         deck = new Deck(ranks, suits, values);
@@ -30,6 +32,8 @@ public class Game {
 
         this.window = new GameView(this);
         state = STATE_INSTR;
+
+        turnCounter = 1;
     }
 
     public ArrayList<Player> getPlayers(){
@@ -50,6 +54,10 @@ public class Game {
 
     public boolean getNewSuitChosen(){
         return newSuitChosen;
+    }
+
+    public int getTurnCounter() {
+        return turnCounter;
     }
 
     public String printInstructions(){
@@ -186,6 +194,7 @@ public class Game {
                     return;
                 }
             }
+            turnCounter++;
 
         }
 
