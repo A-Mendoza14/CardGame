@@ -35,7 +35,8 @@ public class GameView extends JFrame{
     }
 
     public void paintRoundCounter(Graphics g) {
-        g.drawString("Turn: " + backend.getTurnCounter(), 5, 45);
+        g.setFont(new Font("Serif", Font.BOLD, 25));
+        g.drawString("Turn: " + backend.getTurnCounter(), 5, 55);
     }
 
     public void paintBackground(Graphics g){
@@ -70,6 +71,7 @@ public class GameView extends JFrame{
 
         // Draw player name
         g.setColor(Color.white);
+        g.setFont(new Font("SansSerif", Font.PLAIN, 15));
         g.drawString(p.getName() + " turn", 100, 100);
     }
 
