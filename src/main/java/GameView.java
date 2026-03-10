@@ -34,6 +34,11 @@ public class GameView extends JFrame{
         }
     }
 
+    public void paintRoundCounter(Graphics g) {
+        g.setFont(new Font("Serif", Font.BOLD, 25));
+        g.drawString("Turn: " + backend.getTurnCounter(), 5, 55);
+    }
+
     public void paintBackground(Graphics g){
         // Set background for game
         Color darkGreen = new Color(0, 100, 0);
@@ -48,6 +53,7 @@ public class GameView extends JFrame{
         prevCard.draw(g, 425, 150, this);
         g.drawString("Draw Pile", 275, 125);
         g.drawImage(cardImages[52], 265, 150, 80, 120, this);
+        paintRoundCounter(g);
     }
 
     public void paintPlayer1(Graphics g){
@@ -65,6 +71,7 @@ public class GameView extends JFrame{
 
         // Draw player name
         g.setColor(Color.white);
+        g.setFont(new Font("SansSerif", Font.PLAIN, 15));
         g.drawString(p.getName() + " turn", 100, 100);
     }
 
