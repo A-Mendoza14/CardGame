@@ -14,6 +14,19 @@ public class GameView extends JFrame{
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setTitle("Crazy Eights");
         this.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+
+        // Layout for the button
+        this.setLayout(new BorderLayout());
+
+        // Declare the button ONLY ONCE here
+        JButton restartBtn = new JButton("Restart (Check Terminal)");
+        restartBtn.addActionListener(e -> {
+            System.out.println("\n[UI] Restart requested. Please finish the current turn or enter '99' in terminal.");
+        });
+
+        // Add the button to the bottom of the screen
+        this.add(restartBtn, BorderLayout.SOUTH);
+
         this.setVisible(true);
         cardImages = new Image[53];
         cardImages[52] = new ImageIcon("src/main/resources/Cards/back.png").getImage();
